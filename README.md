@@ -36,7 +36,7 @@ To create a database, open MySQL (I use DevDesktop and the terminal it uses) and
 $ mysql -u <username>
 > CREATE DATABASE cred;
 > USE users;
->   CREATE TABLE users (id serial PRIMARY KEY, name VARCHAR(60), pass VARCHAR(128), mail VARCHAR(254), role VARCHAR(64), status TINYINT(1), picture VARCHAR(1024));
+>   CREATE TABLE users (id serial PRIMARY KEY, name VARCHAR(60), hp INT(11), ac INT(11), init INT(11));
 
 
 (Note: I have taken my password out of here. As such you might need to use the -p flag followed by your password or root password)

@@ -42,11 +42,9 @@
             $hp = 15;
             // $mail = "player@place.com";
             $init = 11;
-            // $status = 0;
+            $ac = 10;
             // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $init
-            //   $mail, $status, $picture
-            );
+            $test_player = new Player($name, $hp, $ac, $init);
             //Act
             $result = $test_player->getName();
             //Assert
@@ -60,12 +58,11 @@
             $name = "Karrik";
             $hp = 15;
             // $mail = "player@place.com";
+            $ac = 10;
             $init = 11;
-            // $status = 0;
             // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $init
-            //  , $hp, $mail, $init, $status, $picture
-            );
+            $test_player = new Player($name, $hp, $ac, $init);
+
             //Act
             $test_player->setName("George");
             $name = $test_player->getName();
@@ -82,11 +79,10 @@
             $hp = 9;
             // $mail = "player@place.com";
             $init = 11;
-            // $status = 0;
+            $ac = 10;
             // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $init
-            //   $mail, $status, $picture
-            );
+            $test_player = new Player($name, $hp, $ac, $init);
+
             //Act
             $result = $test_player->getHp();
             //Assert
@@ -101,11 +97,9 @@
             $hp = 15;
             // $mail = "player@place.com";
             $init = 11;
-            // $status = 0;
+            $ac = 10;
             // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $init
-            //  , $hp, $mail, $init, $status, $picture
-            );
+            $test_player = new Player($name, $hp, $ac, $init);
             //Act
             $test_player->setHp(21);
             $healing = $test_player->getHp();
@@ -114,38 +108,43 @@
             // echo("Name set \n");
         }
 
-        function test_getAllPlayers()
+        function test_getAC()
         {
-            //Arrange first
-            $name = "Tonda";
-            $hp = 12;
-            $mail = "player@place.com";
-            $init = 8;
-            $status = 0;
-            $picture = "myimage.jpg";
+            //Arrange
+            $name = "Karrik";
+            $hp = 9;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            // $picture = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init);
 
-            $test_player = new Player($name, $hp, $init);
-            $executed = $test_player->save();
-            $test_player->setId($executed);
-
-            //Arrange second
-            $name0 = "Bindi";
-            $hp0 = 82;
-            $mail0 = "budd@place.com";
-            $init0 = 1;
-            $status0 = 1;
-            $picture0 = "buddImage.jpg";
-            $test_player0 = new Player($name0, $hp0, $init0);
-            $executed0 = $test_player0->save();
             //Act
-
-
-            $result = Player::getAllPlayers();
-
-
+            $result = $test_player->getAc();
             //Assert
-            $this->assertEquals([$test_player, $test_player0], $result);
+            $this->assertEquals($ac, $result);
+            //  echo("Name get \n");
         }
+
+        function test_setAC()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            // $picture = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init);
+            //Act
+            $test_player->setAc(21);
+            $healing = $test_player->getAc();
+            //Assert
+            $this->assertTrue($healing == 21);
+            // echo("Name set \n");
+        }
+
+
 
         function test_save()
         {
@@ -153,246 +152,238 @@
             $name = "LL";
             $hp = 15;
             $init = 21;
-            // $status = 0;
-            // $picture = "myimage.jpg";
-            $test_player1 = new Player($name, $hp, $init
-            //, , $status, $picture
-            );
+            $ac = 1;
+            $test_player1 = new Player($name, $hp, $ac, $init);
 
             $name = "Karrik";
             $hp = 24;
             $init = 11;
-            // $status = 0;
-            // $picture = "myimage.jpg";
-            $test_player2 = new Player($name, $hp, $init
-            //, , $status, $picture
-            );
+            $ac = 0;
+            $test_player2 = new Player($name, $hp, $ac, $init);
+
+            //Act
+            $isSaved = $test_player1->save();
+            $isSaved2 = $test_player2->save();
+            if ($isSaved == 0 || $isSaved2 == 0)
+            {
+                $isSaved == false;
+            }
+
+            $isSaved = $isSaved + $isSaved;
+
+            // Assert
+             $this->assertTrue(is_numeric($isSaved)&&$isSaved != 0);
+        }
+
+        function test_findById()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            $init = 21;
+            $ac = 0;
+            $test_player1 = new Player($name, $hp, $ac, $init);
+
+            $name = "Karrik";
+            $hp = 24;
+            $init = 11;
+            $ac = 0;
+            $test_player2 = new Player($name, $hp, $ac, $init);
 
             $test_player1->save();
             $test_player2->save();
 
+            $id = $test_player1->getId();
+
             //Act
-            $playerId = $test_player1->getId();
+            $playerId = Player::findById($id);
+
+            // Assert
+             $this->assertEquals($test_player1, Player::findById($id));
+        }
+
+        function test_findByName()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            $init = 21;
+            $ac = 0;
+            $test_player1 = new Player($name, $hp, $ac, $init);
+
+            $name = "Karrik";
+            $hp = 24;
+            $init = 11;
+            $ac = 0;
+            $test_player2 = new Player($name, $hp, $ac, $init);
+
+            $test_player1->save();
+            $test_player2->save();
+            $id = $test_player1->getName();
+
+            //Act
+            $playerId = Player::findByName($name);
 
             // Assert
             // assertTrue will return the string if false
             // $this->assertTrue( is_numeric($test_player1->save()));
-             $this->assertEquals($playerId, $test_player1->getId());
+             $this->assertEquals($test_player2, Player::findByName($name));
         }
 
-        // function test_getPass()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $result = $test_player->getPass();
-        //     //Assert
-        //     $this->assertEquals($hp, $result);
-        // }
-        //
-        // function test_setPass()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $test_player->setPass("dragon");
-        //     $hp = $test_player->getPass();
-        //     //Assert
-        //     $this->assertTrue($hp == "dragon");
-        // }
-        //
-        // function test_getMail()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $result = $test_player->getMail();
-        //     //Assert
-        //     $this->assertEquals($mail, $result);
-        // }
-        //
-        // function test_setMail()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $test_player->setMail("george@geosomething.net");
-        //     $mail = $test_player->getMail();
-        //     //Assert
-        //     $this->assertTrue($mail == "george@geosomething.net");
-        // }
-        //
-        // function test_getRole()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $result = $test_player->getRole();
-        //     //Assert
-        //     $this->assertEquals($init, $result);
-        // }
-        //
-        // function test_setRole()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     $isAdmin = false;
-        //     //Act
-        //     if (!$isAdmin) {
-        //         $test_player->setRole(1);
-        //         $isAdmin = true;
-        //     }
-        //     $init = $test_player->getRole();
-        //     //Assert
-        //     $this->assertEquals($init, $isAdmin);
-        // }
-        //
-        // function test_getStatus()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $result = $test_player->getStatus();
-        //     //Assert
-        //     $this->assertEquals($status, $result);
-        // }
-        //
-        // function test_setStatus()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     $isOnline = 0;
-        //     //Act
-        //     if ($status == 0) {
-        //         $isOnline = 1;
-        //         $test_player->setStatus(1);
-        //     }
-        //     $test_player->setStatus(1);
-        //     $status = $test_player->getStatus();
-        //     //Assert
-        //     $this->assertEquals($isOnline, $status);
-        // }
-        //
-        // function test_getPicture()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $result = $test_player->getPicture();
-        //     //Assert
-        //     $this->assertEquals($picture, $result);
-        // }
-        //
-        // function test_setPicture()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     //Act
-        //     $test_player->setPicture("mynewimage.png");
-        //     $picture = $test_player->getPicture();
-        //     //Assert
-        //     $this->assertEquals($picture, "mynewimage.png");
-        // }
-        //
-        //
-        // function test_getId()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     $test_player->save();
-        //     //Act
-        //     $result = $test_player->getId();
-        //     //Assert
-        //     $this->assertTrue(is_numeric($result) && $result !== false);
-        // }
-        //
+        function test_singleGetPlayer()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp = 12;
+          $init = 8;
+          $ac = 10;
+          $test_player = new Player($name, $hp, $ac, $init);
+          $executed = $test_player->save();
 
-        //
-        // function test_find()
-        // {
-        //     //Arrange
-        //     $name = "Fred";
-        //     $hp = "1a2b3c";
-        //     $mail = "player@place.com";
-        //     $init = 0;
-        //     $status = 0;
-        //     $picture = "myimage.jpg";
-        //     $test_player = new Player($name, $hp, $mail, $init, $status, $picture);
-        //     $test_player->save();
-        //     $executed = $test_player;
-        //     //Act
-        //     $result = Player::find($name, $hp);
-        //     //$test_player = "This is the input: Fred 1a2b3c";
-        //     //Assert
-        //     //$result->getId() is returning null
-        //     $this->assertEquals($executed, $result);
-        // }
+          //Arrange second
+          $name1 = "Bindi";
+          $hp = 28;
+          $init = 13;
+          $ac = 12;
+          $test_player1 = new Player($name, $hp, $ac, $init);
+          $executed1 = $test_player1->save();
+
+          //Act
+          $result = Player::findByName($name);
+          $getname = $test_player->getInit();
+          // $getname2 = $result->getName();
+
+          //Assert
+          //$this->assertEquals($getname2, "Bindi");
+          $this->assertEquals($result, $test_player);
+        }
+
+        function test_getAllPlayers()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp = 12;
+          $init = 8;
+          $ac = 0;
+          $id = 0;
+          $test_player = new Player($name, $hp, $ac, $init, $id);
+          $executed = $test_player->save();
+
+          //Arrange second
+          $name = "Bindi";
+          $hp = 28;
+          $init = 1;
+          $ac = 1;
+          $id = 1;
+          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $executed1 = $test_player1->save();
+
+          //Act
+          $result = Player::getAllPlayers();
+
+          //Assert
+          $this->assertEquals([$test_player, $test_player1], $result);
+        }
+
+        function test_updateHp()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp1 = 12;
+          $init = 8;
+          $ac = 0;
+          $id = 0;
+          $test_player = new Player($name, $hp1, $ac, $init, $id);
+          $executed = $test_player->save();
+
+          //Arrange second
+          $name = "Bindi";
+          $hp = 28;
+          $init = 1;
+          $ac = 1;
+          $id = 1;
+          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $executed1 = $test_player1->save();
+
+          //Act
+          $new_hp = 25;
+          $result = $test_player->updateHp($new_hp, $hp1);
+
+          //Assert
+          $this->assertEquals(($new_hp == $test_player->getHp()), $result);
+        }
+
+        function test_updateHpPlusMinus()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp1 = 12;
+          $init = 8;
+          $ac = 0;
+          $id = 0;
+          $test_player = new Player($name, $hp1, $ac, $init, $id);
+          $executed = $test_player->save();
+
+          //Arrange second
+          $name = "Bindi";
+          $hp = 28;
+          $init = 1;
+          $ac = 1;
+          $id = 1;
+          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $executed1 = $test_player1->save();
+
+          //Act
+          $new_hp = '-5';
+          $final_hp = $test_player->getHp() + $new_hp;
+          $result = $test_player->updateHp($new_hp, $hp1);
+
+          //Assert
+          $this->assertEquals($final_hp, $result);
+        }
+
+        function test_orderByInit()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp = 12;
+          $init = 8;
+          $ac = 0;
+          $id = 0;
+          $test_player = new Player($name, $hp, $ac, $init, $id);
+
+          //Arrange second
+          $name = "Bindi";
+          $hp = 28;
+          $init = 1;
+          $ac = 1;
+          $id = 1;
+          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+
+          $name = "LL";
+          $hp = 15;
+          $init = 21;
+          $ac = 9;
+          $test_player2 = new Player($name, $hp, $ac, $init);
+
+          $name = "Karrik";
+          $hp = 24;
+          $init = 11;
+          $ac = 7;
+          $test_player3 = new Player($name, $hp, $ac, $init);
+
+          $test_player->save();
+          $test_player1->save();
+          $test_player2->save();
+          $test_player3->save();
+
+          //Act
+
+          $order = Player::orderByInit();
+
+          //Assert
+          $this->assertGreaterThan($order[0], $order[1]);
+        }
 
 
     }
