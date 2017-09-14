@@ -34,26 +34,35 @@
         return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
     });
 
-    $app->get("/{name}", function($name) use ($app) {
-        $character = Player::findByName($name);
-        return $app['twig']->render('character.html.twig', array('player' => $character));
+    $app->post("/", function() use ($app) {
+      $id = intval($_POST['id']);
+      $updatedHp = intval($_POST['hp']);
+      $character = Player::findById($id);
+      $oldHp =$character->getHp();
+      if($oldHp != $updatedHp)
+      {
+        $character->updateHp($updatedHp, $oldHp);
+      }
+      return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
     });
+
+    // $app->get("/init", function() use ($app) {
+    //     // $addTonka = intval($_POST['init_Tonka']);
+    //     // $addLL = intval($_POST['init_LL']);
+    //     // $addBindi = intval($_POST['init_Bindi']);
+    //     // $addKarrik = intval($_POST['init_Karrik']);
+    //     //
+    //     // $characters = Player::getAllPlayers();
+    //     // foreach($characters as $char)
+    //     // {
+    //     //
+    //     // }
+    //     return $app['twig']->render('init.html.twig', array('players' => Player::orderByInit()));
+    // });
 
     $app->get("/init", function() use ($app) {
-        //$users = User::getAll();
-        return $app['twig']->render('init.html.twig', array('players' => Player::orderByInit()));
-    });
-
-    $app->post("/", function() use ($app) {
-        $id = intval($_POST['id']);
-        $updatedHp = intval($_POST['hp']);
-        $character = Player::findById($id);
-        $oldHp =$character->getHp();
-        if($oldHp != $updatedHp)
-        {
-            $character->updateHp($updatedHp, $oldHp);
-        }
-        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
+      //$users = User::getAll();
+      return $app['twig']->render('init.html.twig', array('players' => Player::orderByInit()));
     });
 
     $app->patch("/init", function() use ($app) {
@@ -104,6 +113,11 @@
     //     $category = Category::find($id);
     //     return $app['twig']->render('category_edit.html.twig', array('category' => $category, 'tasks' => $category->getTasks(), 'all_tasks' => Task::getAll()));
     // });
+
+    $app->get("/character/{name}", function($name) use ($app) {
+        $character = Player::findByName($name);
+        return $app['twig']->render('character.html.twig', array('player' => $character));
+    });
 
     return $app;
 ?>

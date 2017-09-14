@@ -1,17 +1,17 @@
 <html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="js/app.js"  type="text/javascript"></script>
-    <link rel="stylesheet" href="./css/stylesIndex.css" >
-    <title>Players</title>
-</head>
-<body>
+  <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <script src="js/app.js"  type="text/javascript"></script>
+      <link rel="stylesheet" href="./css/stylesIndex.css" >
+      <title>Players</title>
+  </head>
+  <body>
     <div class="container">
         <div class="header clearfix">
           <nav>
             <ul class="nav nav-pills pull-right">
               <li role="presentation" class="active"><a href="/">Home</a></li>
-              <li role="presentation" class="active"><a href="/redirect">Redirect</a></li>
+              <li role="presentation" class="active"><a href="/init">Init</a></li>
             </ul>
           </nav>
           <h3 class="text-muted">Players Page</h3>
@@ -21,9 +21,10 @@
             <div class="row">
                 {% for player in players %}
                 <div class="col-sm-3" id={{player.id}}>
-                    <a href="/{{ player.getName }}"><h3>{{ player.getName }}</h3></a>
+                    <a href="/character/{{ player.getName }}"><h3>{{ player.getName }}</h3></a>
                     <div class="stats">
                         <p>Hit Points: {{ player.getHp }}</p>
+                        <p>AC: {{ player.getAc }}</p>
                         <p>Init: {{ player.getInit }}</p>
                     </div>
                 </div>
@@ -32,26 +33,22 @@
         </div>
 
         <div class="col-sm-12">
-            <h2>Initive: </h2>
+          <h2>Initive: </h2>
 
-            <form action='/init' method='post'>
-                {% for player in players %}
-                <div class="col-sm-12">
-
-                    <label for='init_{{player.name}}'>{{player.name}}:</label>
-                    <br/>
-                    <input id='init_{{player.name}}' name='init_{{player.name}}' type='text' required> + {{player.init}}
-                    <input id="{{player.id}}" name="{{player.id}}" type="hidden" value="{{ player.getId }}">
-
-                  </div>
-
-                {% endfor %}
+          <form action='/init' method='post'>
+              {% for player in players %}
+              <div class="col-sm-12">
+                <label for='init_{{player.name}}'>{{player.name}}:</label>
                 <br/>
-                <button class="btn btn-success" type='submit'> Add :</button>
-            </form>
-
+                <input id='init_{{player.name}}' name='init_{{player.name}}' type='text' required> + {{player.init}}
+                <input id="{{player.id}}" name="{{player.id}}" type="hidden" value="{{ player.getId }}">
+              </div>
+            {% endfor %}
+            <br/>
+            <button class="btn btn-success" type='submit'> Add :</button>
+          </form>
         </div>
       </div>
     </div>
-</body>
+  </body>
 </html>
