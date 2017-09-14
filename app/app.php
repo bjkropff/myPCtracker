@@ -85,15 +85,20 @@
         return $app['twig']->render('init.html.twig', array('players' => Player::orderByInit()));
     });
 
-    // $app->patch("/redirect/{id}/{hp}", function($id) use ($app) {
-    //     $character = Player::findByName($name);
-    //     $updatedHp = intval($_POST['hp']);
-    //     if($character->getHp() != $updatedHp)
-    //     {
-    //         $character->update($updatedHp);
-    //     }
-    //     return $app['twig']->render('redirect.html.twig');
-    // });
+    $app->get("/redirect", function() use ($app) {
+        //$users = User::getAll();
+        return $app['twig']->render('redirect.html.twig');
+    });
+
+    $app->post("/redirect", function() use ($app) {
+        // $character = Player::findByName($name);
+        // $updatedHp = intval($_POST['hp']);
+        // if($character->getHp() != $updatedHp)
+        // {
+        //     $character->update($updatedHp);
+        // }
+        return $app['twig']->render('redirect.html.twig');
+    });
 
     // $app->get("/categories/{id}/edit", function($id) use ($app) {
     //     $category = Category::find($id);
