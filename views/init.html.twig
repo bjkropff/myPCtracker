@@ -15,7 +15,7 @@
   <div class="container">
       <div class="header clearfix">
         <nav>
-          <ul class="nav nav-pills pull-right">
+          <ul class="nav nav-pills pull-right collapse navbar-collapse">
             <li role="presentation" class="active"><a href="/">Home</a></li>
             <!-- <li role="presentation"><a href="/login">login</a></li> -->
           </ul>
@@ -39,12 +39,20 @@
       </div>
 
       <div class="row">
-        <ul class="initlist">
-          {% for player in players %}
+        <div class="col-sm-4">
+          <h4>Initaltive list:</h4>
+          <ul class="initlist">
+            {% for player in players %}
             <li id="{{player.getId}}">{{player.name}}</li>
-          {% endfor %}
-        </ul>
-        <button class="btn btn-primary" id="next">Next</button>
+            {% endfor %}
+          </ul>
+          <button class="btn btn-primary" id="next">Next</button>
+        </div>
+
+        <div class="col-sm-4">
+          <h4>Turn: </h4>
+          <h1 id="turn">test</h1>
+        </div>
 
         <!-- <form action='/redirect' method='post'>
             {% for player in players %}
