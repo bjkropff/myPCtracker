@@ -1,15 +1,5 @@
 
-##Setting up
-1. Copy over the composer.json and run `composer install` at the docroot
-1. Copy over the .gitignore
-1. Make README.md
-1. Duplicate setup
-  * Make `tests`, `app`, `src`, `views`, `web` folders
-  * Make `web/index.php`, `views/index.html.twig`, and `app/app.php` files and copy over the data
-  * Test and debug the home page
-  * Copy over setup info. for src, tests, and views files
 
-------
 # COPIED OVER FROM MY TODO APP
 ##Desription
 
@@ -129,6 +119,18 @@ But, now it tests!
 Comment out any database information while you are building without the DB.
 
 Of course, be sure to uncomment it once you are ready to bring it back.
+
+
+## Setting up a new app
+1. Copy over the composer.json and run `composer install` at the docroot
+1. Copy over the .gitignore
+1. Make README.md
+1. Duplicate setup
+  * Make `tests`, `app`, `src`, `views`, `web` folders
+  * Make `web/index.php`, `views/index.html.twig`, and `app/app.php` files and copy over the data
+  * Test and debug the home page
+  * Copy over setup info. for src, tests, and views files
+  
 
 ##Copyright
 
