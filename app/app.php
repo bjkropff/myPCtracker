@@ -35,6 +35,7 @@
     Request::enableHttpMethodParameterOverride();
 
     $app->get("/", function() use ($app) {
+        // $file = require_once __DIR__."/../../../sourceFiles/jquery-3.2.1.js";
         //$users = User::getAll();
         return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
     });
