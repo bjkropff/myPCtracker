@@ -26,13 +26,18 @@
       <div class="jumbotron">
           <div class="row">
               {% for player in players %}
-              <div class="col-sm-3">
-                <div class="stats">
-                  <h3>{{ player.getName }}</h3>
-                  <p>Hit Points: {{ player.getHp }}</p>
-                  <p>AC: {{ player.getAc }}</p>
-                  <p>Init: {{ player.getInit }}</p>
-                </div>
+              <div class="col-sm-3" id={{player.id}}>
+                  <a href="/character/{{ player.getName }}"><h3>{{ player.getName }}</h3></a>
+                  <div class="stats">
+                      <p>AC: {{ player.getAc }}</p>
+                      <p>Init: {{ player.getInit }}</p>
+                      <form class="" action="/" method="post">
+                        <p>Hit Points: </p>
+                        <input type="text" name="" value="{{ player.getHp }}">
+                        <button type="button" name="button">Su</button>
+                      </form>
+
+                  </div>
               </div>
               {% endfor %}
           </div>
@@ -42,8 +47,8 @@
         <div class="col-sm-4">
           <h4>Initaltive list:</h4>
           <ul class="initlist">
-            {% for player in players %}
-            <li id="{{player.getId}}">{{player.name}}</li>
+            {% for turn in order %}
+            <li id="{{turn.getId}}" class="{{turn.getInit}}">{{turn.name}}</li>
             {% endfor %}
           </ul>
           <button class="btn btn-primary" id="next">Next</button>

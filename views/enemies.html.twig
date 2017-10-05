@@ -1,0 +1,53 @@
+<html>
+  <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <script src=""  type="text/javascript"></script>
+      <link rel="stylesheet" href="./css/stylesIndex.css" >
+      <title>Players</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="active"><a href="/">Home</a></li>
+              <li role="presentation" class="active"><a href="/init">Init</a></li>
+            </ul>
+          </nav>
+          <h3 class="text-muted">Players Page</h3>
+        </div>
+
+        <div class="jumbotron">
+            <div class="row">
+                {% for enemy in enemies %}
+                <div class="col-sm-3" id={{enemy.id}}>
+                    <a href="/character/{{ enemy.getName }}"><h3>{{ enemy.getName }}</h3></a>
+                    <div class="stats">
+                        <p>Hit Points: {{ enemy.getHp }}</p>
+                        <p>AC: {{ enemy.getAc }}</p>
+                        <p>Init: {{ enemy.getInit }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+          <h2>Add Enemies: </h2>
+
+          <form action='/enemies' method='post'>
+                <label for='enemy.name'>Name:</label>
+                <input id='enemy.name' type='text' required>
+                <label for='enemy.ac'>AC:</label>
+                <input id='enemy.ac' type='text' >
+                <label for='enemy.hp'>HP:</label>
+                <input id='enemy.hp' type='text' >
+                <label for='enemy.init'>Init:</label>
+                <input id='enemy.init' type='text' >
+            <button class="btn btn-success" type='submit'> Add:</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

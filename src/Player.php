@@ -175,14 +175,31 @@
             }
         }
 
-        static function orderByInit()
+        static function orderByInit($rolls_array)
         {
+            $order = array();
+            $count = 0;
+
             $returned_players = Player::getAllPlayers();
-            // foreach($returned_players as $player)
-            // {
-            //
-            // }
-            usort($returned_players, function($first, $next)
+            foreach($returned_players as $player)
+            {
+                // $position_in_array = array_search($player->getName(), $rolls_array);
+                // //I suspect that $rolls_array is returning a number here ^^^^^^^
+                // //$position_in_array not returning
+                // $p_init = $player->getInit() + $rolls_array[$position_in_array];
+                // $player->setInit($p_init);
+                // array_push($order, $player);
+
+
+                //I suspect that $rolls_array is returning a number here ^^^^^^^
+                //$position_in_array not returning
+                $p_init = $player->getInit() + $rolls_array[$count];
+                $player->setInit($p_init);
+                array_push($order, $player);
+                $count++;
+            }
+
+            usort($order, function($first, $next)
             {
                 if ($first->getInit() <= $next->getInit())
                 {
@@ -194,7 +211,7 @@
                 }
             });
 
-            return $returned_players;
+            return $order;
         }
 
     }

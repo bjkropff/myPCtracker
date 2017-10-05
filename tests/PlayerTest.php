@@ -14,15 +14,20 @@
     // $server = 'mysql:host=(localhost or 127 or host ip):(port);dbname=(name))';
     // $username = 'root';
 
+    $server = 'mysql:host=localhost:33067;dbname=test_player';
+    $username = 'root';
+    $password = '';
 
-    require_once __DIR__."/../../settings.php";
+    // This works with the app.php but not PHPunit testing
+    // require_once __DIR__."/../../settings.php";
+    //
+    // $server = 'mysql:host=' .
+    //     $settings['host'] . ':' .
+    //     $settings['port'] . ';dbname=' .
+    //     $settings['testdb'];
+    // $username = $settings['username'];
+    // $password = $settings['password'];
 
-    $server = 'mysql:host=' .
-        $settings['host'] . ':' .
-        $settings['port'] . ';dbname=' .
-        $settings['testdb'];
-    $username = $settings['username'];
-    $password = $settings['password'];
 
     $DB = new PDO($server, $username, $password);
 
@@ -342,48 +347,43 @@
           $this->assertEquals($final_hp, $result);
         }
 
-        function test_orderByInit()
+        function test_orderInit()
         {
-          //Arrange first
-          $name = "Tonka";
-          $hp = 12;
-          $init = 8;
-          $ac = 0;
-          $id = 0;
-          $test_player = new Player($name, $hp, $ac, $init, $id);
+        //Arrange first
+        $name = "Tonka";
+        $hp1 = 12;
+        $init = 3;
+        $ac = 0;
+        $id = 0;
+        $test_player = new Player($name, $hp1, $ac, $init, $id);
+        $executed = $test_player->save();
 
-          //Arrange second
-          $name = "Bindi";
-          $hp = 28;
-          $init = 1;
-          $ac = 1;
-          $id = 1;
-          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+        $name = "Bindi";
+        $hp = 28;
+        $init = 9;
+        $ac = 1;
+        $id = 1;
+        $test_player1 = new Player($name, $hp, $ac, $init, $id);
+        $executed1 = $test_player1->save();
 
-          $name = "LL";
-          $hp = 15;
-          $init = 21;
-          $ac = 9;
-          $test_player2 = new Player($name, $hp, $ac, $init);
 
-          $name = "Karrik";
-          $hp = 24;
-          $init = 11;
-          $ac = 7;
-          $test_player3 = new Player($name, $hp, $ac, $init);
+        $rolls_array = [
+            "Tonka" => 15,
+            "Bindi" => 10,
+        ];
+        // $test_player->save();
+        // $test_player1->save();
+        // $test_player2->save();
+        // $test_player3->save();
+        //
+        //Act
 
-          $test_player->save();
-          $test_player1->save();
-          $test_player2->save();
-          $test_player3->save();
+         $order = Player::orderByInit($rolls_array);
 
-          //Act
+        //Assert
+        $this->assertEquals([$order[0]->getName(), $order[1]->getName()],["Tonka", "Bindi"]);
+       }
 
-          $order = Player::orderByInit();
-
-          //Assert
-          $this->assertGreaterThan($order[0], $order[1]);
-        }
 
 
     }
