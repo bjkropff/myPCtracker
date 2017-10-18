@@ -25,7 +25,7 @@
 
     $DB = new PDO($server, $username, $password);
 
-    $app['debug'] = true;
+    //$app['debug'] = true;
 
     $app->register(new Silex\Provider\TwigServiceProvider(), array(
         'twig.path' => __DIR__.'/../views'
@@ -35,9 +35,8 @@
     Request::enableHttpMethodParameterOverride();
 
     $app->get("/", function() use ($app) {
-        // $file = require_once __DIR__."/../../../sourceFiles/jquery-3.2.1.js";
-        //$users = User::getAll();
-        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
+      $message = '{{message}}';
+        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers(), 'message' => $message));
     });
 
     $app->post("/", function() use ($app) {
@@ -61,7 +60,7 @@
         //$users = User::getAll();
         // $_SESSION['order_of_init'] = array();
         if (empty($_SESSION['order_of_init'])) {
-          $_SESSION['order_of_init'] = Player::orderByInit([0,0,0,0]);
+          $_SESSION['order_of_init'] = Player::orderByRoll([0,0,0,0]);
         }
 
         // $order = $_SESSION['order_of_init'];
@@ -93,7 +92,7 @@
             intval($_POST['init_Tonka'])
         ];
 
-        $_SESSION['order_of_init'] = Player::orderByInit($rolls_array);
+        $_SESSION['order_of_init'] = Player::orderByRoll($rolls_array);
 
         return $app['twig']->render('init.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
     });

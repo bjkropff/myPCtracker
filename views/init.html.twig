@@ -34,9 +34,8 @@
                       <form class="" action="/" method="post">
                         <p>Hit Points: </p>
                         <input type="text" name="" value="{{ player.getHp }}">
-                        <button type="button" name="button">Su</button>
+                        <button class="btn btn-primary" id="{{ player.id }}" type="button" name="button">Update</button>
                       </form>
-
                   </div>
               </div>
               {% endfor %}
@@ -58,16 +57,9 @@
           <h4>Turn: </h4>
           <h1 id="turn">test</h1>
         </div>
-
-        <!-- <form action='/redirect' method='post'>
-            {% for player in players %}
-            <div class="col-sm-12">
-                <label for='name'>{{player.name}}:</label>
-            </div>
-            {% endfor %}
-            <button class="btn btn-danger" type='submit'>Next</button>
-        </form> -->
       </div>
     </div>
+    <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+    <script src="../js/vueapp.js" ></script>
 </body>
 </html>

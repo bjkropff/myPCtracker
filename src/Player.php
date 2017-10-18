@@ -5,15 +5,17 @@
         private $hp;
         private $ac;
         private $init;
+        private $summary;
         private $id;
 
 
-        function __construct($name, $hp, $ac, $init, $id = null)
+        function __construct($name, $hp, $ac, $init, $summary, $id = null)
         {
             $this->name = $name;
             $this->hp = $hp;
             $this->ac = $ac;
             $this->init = $init;
+            $this->summary = $summary;
             $this->id = $id;
         }
 
@@ -49,6 +51,11 @@
           $this->name = (string) $new_name;
         }
 
+        function setSummary($new_summary)
+        {
+          $this->summary = (string) $new_summary;
+        }
+
         //GETS
         function getAc()
         {
@@ -75,11 +82,19 @@
             return $this->name;
         }
 
+        function getSummary()
+        {
+          return $this->summary;
+        }
+
         //OTHER
         function save()
         {
             $thisname = $this->getName();
-            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init) VALUES ('{$thisname}', {$this->getHp()}, {$this->getAc()}, {$this->getInit()});");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO
+                  characters (name, hp, ac, init, summary) VALUES (
+                      s
+                      '{$thisname}', {$this->getHp()}, {$this->getAc()}, {$this->getInit()}, {$this->getSummary()});");
             $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$thisname}'; ");
             foreach($returned_players as $player)
             {
@@ -108,7 +123,8 @@
                     $hp = intval($player['hp']);
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
-                    $found_player = new Player($name, $hp, $ac, $init, $id);
+                    $summary = $summary['summary'];
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
                 }
             }
             return $found_player;
@@ -127,7 +143,8 @@
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
                     $id = intval($player['id']);
-                    $found_player = new Player($name, $hp, $ac, $init, $id);
+                    $summary = $summary['summary'];
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
                     return $found_player;
                 }
             }
@@ -145,8 +162,9 @@
                 $ac   = intval($player['ac']);
                 $init = intval($player['init']);
                 $id   = intval($player['id']);
+                $summary = $summary['summary'];
 
-                $next_player = new Player($name, $hp, $ac, $init, $id);
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $id);
 
                 array_push($players, $next_player);
             }
@@ -183,16 +201,6 @@
             $returned_players = Player::getAllPlayers();
             foreach($returned_players as $player)
             {
-                // $position_in_array = array_search($player->getName(), $rolls_array);
-                // //I suspect that $rolls_array is returning a number here ^^^^^^^
-                // //$position_in_array not returning
-                // $p_init = $player->getInit() + $rolls_array[$position_in_array];
-                // $player->setInit($p_init);
-                // array_push($order, $player);
-
-
-                //I suspect that $rolls_array is returning a number here ^^^^^^^
-                //$position_in_array not returning
                 $p_init = $player->getInit() + $rolls_array[$count];
                 $player->setInit($p_init);
                 array_push($order, $player);
@@ -213,6 +221,37 @@
 
             return $order;
         }
+
+        static function orderByRoll($rolls_array)
+        {
+            $order = array();
+            $count = 0;
+
+            $returned_players = Player::getAllPlayers();
+            foreach($returned_players as $player)
+            {
+                $p_init = $rolls_array[$count];
+                $player->setInit($p_init);
+                array_push($order, $player);
+                $count++;
+            }
+
+            usort($order, function($first, $next)
+            {
+                if ($first->getInit() <= $next->getInit())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            });
+
+            return $order;
+        }
+
+
 
     }
 ?>

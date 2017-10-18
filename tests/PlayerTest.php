@@ -48,8 +48,8 @@
             // $mail = "player@place.com";
             $init = 11;
             $ac = 10;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
             //Act
             $result = $test_player->getName();
             //Assert
@@ -65,8 +65,8 @@
             // $mail = "player@place.com";
             $ac = 10;
             $init = 11;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
 
             //Act
             $test_player->setName("George");
@@ -85,8 +85,8 @@
             // $mail = "player@place.com";
             $init = 11;
             $ac = 10;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
 
             //Act
             $result = $test_player->getHp();
@@ -103,8 +103,8 @@
             // $mail = "player@place.com";
             $init = 11;
             $ac = 10;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
             //Act
             $test_player->setHp(21);
             $healing = $test_player->getHp();
@@ -121,8 +121,8 @@
             // $mail = "player@place.com";
             $init = 11;
             $ac = 10;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
 
             //Act
             $result = $test_player->getAc();
@@ -139,8 +139,8 @@
             // $mail = "player@place.com";
             $init = 11;
             $ac = 10;
-            // $picture = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
             //Act
             $test_player->setAc(21);
             $healing = $test_player->getAc();
@@ -149,6 +149,41 @@
             // echo("Name set \n");
         }
 
+        function test_getSummary()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            //Act
+            $healing = $test_player->getSummary();
+            //Assert
+            $this->assertEquals($healing, $summary);
+            // echo("Name set \n");
+        }
+
+
+        function test_setSummary()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            $summary = "myimage.jpg";
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            //Act
+            $test_player->setSummary("21");
+            $healing = $test_player->getSummary();
+            //Assert
+            $this->assertEquals($healing, "21");
+            // echo("Name set \n");
+        }
 
 
         function test_save()
@@ -158,13 +193,15 @@
             $hp = 15;
             $init = 21;
             $ac = 1;
-            $test_player1 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player1 = new Player($name, $hp, $ac, $init, $summary);
 
             $name = "Karrik";
             $hp = 24;
             $init = 11;
             $ac = 0;
-            $test_player2 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player2 = new Player($name, $hp, $ac, $init, $summary);
 
             //Act
             $isSaved = $test_player1->save();
@@ -187,13 +224,15 @@
             $hp = 15;
             $init = 21;
             $ac = 0;
-            $test_player1 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player1 = new Player($name, $hp, $ac, $init, $summary);
 
             $name = "Karrik";
             $hp = 24;
             $init = 11;
             $ac = 0;
-            $test_player2 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+            $test_player2 = new Player($name, $hp, $ac, $init, $summary);
 
             $test_player1->save();
             $test_player2->save();
@@ -214,13 +253,15 @@
             $hp = 15;
             $init = 21;
             $ac = 0;
-            $test_player1 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary);
 
             $name = "Karrik";
             $hp = 24;
             $init = 11;
             $ac = 0;
-            $test_player2 = new Player($name, $hp, $ac, $init);
+            $summary = "myimage.jpg";
+$test_player2 = new Player($name, $hp, $ac, $init, $summary);
 
             $test_player1->save();
             $test_player2->save();
@@ -242,7 +283,8 @@
           $hp = 12;
           $init = 8;
           $ac = 10;
-          $test_player = new Player($name, $hp, $ac, $init);
+          $summary = "myimage.jpg";
+$test_player = new Player($name, $hp, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -250,7 +292,8 @@
           $hp = 28;
           $init = 13;
           $ac = 12;
-          $test_player1 = new Player($name, $hp, $ac, $init);
+          $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -271,7 +314,8 @@
           $init = 8;
           $ac = 0;
           $id = 0;
-          $test_player = new Player($name, $hp, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player = new Player($name, $hp, $ac, $init, $summary, $id);
           $executed = $test_player->save();
 
           //Arrange second
@@ -280,7 +324,8 @@
           $init = 1;
           $ac = 1;
           $id = 1;
-          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $executed1 = $test_player1->save();
 
           //Act
@@ -298,7 +343,8 @@
           $init = 8;
           $ac = 0;
           $id = 0;
-          $test_player = new Player($name, $hp1, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
           $executed = $test_player->save();
 
           //Arrange second
@@ -307,7 +353,8 @@
           $init = 1;
           $ac = 1;
           $id = 1;
-          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $executed1 = $test_player1->save();
 
           //Act
@@ -326,7 +373,8 @@
           $init = 8;
           $ac = 0;
           $id = 0;
-          $test_player = new Player($name, $hp1, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
           $executed = $test_player->save();
 
           //Arrange second
@@ -335,7 +383,8 @@
           $init = 1;
           $ac = 1;
           $id = 1;
-          $test_player1 = new Player($name, $hp, $ac, $init, $id);
+          $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $executed1 = $test_player1->save();
 
           //Act
@@ -355,7 +404,8 @@
         $init = 3;
         $ac = 0;
         $id = 0;
-        $test_player = new Player($name, $hp1, $ac, $init, $id);
+        $summary = "myimage.jpg";
+$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
         $executed = $test_player->save();
 
         $name = "Bindi";
@@ -363,7 +413,8 @@
         $init = 9;
         $ac = 1;
         $id = 1;
-        $test_player1 = new Player($name, $hp, $ac, $init, $id);
+        $summary = "myimage.jpg";
+$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $executed1 = $test_player1->save();
 
 

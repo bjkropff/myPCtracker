@@ -1,7 +1,7 @@
 <html>
   <head>
       <link rel="stylesheet" href="./css/bootstrap.css">
-      <script src="./js/jquery.js" ></script>
+      <script src="./js/jquery-3.2.1.js" ></script>
       <link rel="stylesheet" href="./css/stylesIndex.css" >
       <title>Players</title>
   </head>
@@ -24,9 +24,15 @@
                 <div class="col-sm-3" id={{player.id}}>
                     <a href="/character/{{ player.getName }}"><h3>{{ player.getName }}</h3></a>
                     <div class="stats">
-                        <p>Hit Points: {{ player.getHp }}</p>
-                        <p>AC: {{ player.getAc }}</p>
-                        <p>Init: {{ player.getInit }}</p>
+                      <p>AC: {{ player.getAc }}</p>
+                      <p>Init: {{ player.getInit }}</p>
+                      <p>Hit Point Max:
+                        <span id="{{player.id}}hp">{{ player.getHp }}</span>
+                      </p>
+                      <div id="app-{{player.id}}">
+                        <p>{{ message }}</p>
+                         <input v-model="message">
+                      </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -51,5 +57,8 @@
         </div>
       </div>
     </div>
+    <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+    <script src="../js/vueapp.js" ></script>
+
   </body>
 </html>
