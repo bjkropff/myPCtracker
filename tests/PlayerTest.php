@@ -6,6 +6,8 @@
     */
 
     // require_once "src/Player.php";
+    use PHPUnit\Framework\TestCase;
+
     require_once __DIR__."/../src/Player.php";
 
 
@@ -32,7 +34,7 @@
     $DB = new PDO($server, $username, $password);
 
 
-    class PlayerTest extends PHPUnit_Framework_TestCase
+    class PlayerTest extends TestCase
     {
         protected function tearDown()
         {
@@ -214,7 +216,8 @@
             $isSaved = $isSaved + $isSaved;
 
             // Assert
-             $this->assertTrue(is_numeric($isSaved)&&$isSaved != 0);
+            // $this->assertEquals($test_player1, $isSaved2 == 0);
+            $this->assertTrue(is_numeric($isSaved)&&$isSaved != 0);
         }
 
         function test_findById()

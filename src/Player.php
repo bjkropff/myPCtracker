@@ -91,11 +91,8 @@
         function save()
         {
             $thisname = $this->getName();
-            $executed = $GLOBALS['DB']->exec("INSERT INTO
-                  characters (name, hp, ac, init, summary) VALUES (
-                      s
-                      '{$thisname}', {$this->getHp()}, {$this->getAc()}, {$this->getInit()}, {$this->getSummary()});");
-            $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$thisname}'; ");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary) VALUES ('{$this->getName()}', '{$this->getHp()}', '{$this->getAc()}', '{$this->getInit()}', '{$this->getSummary()}');");
+            $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$this->getName()}'; ");
             foreach($returned_players as $player)
             {
                 if($thisname == $player['name'])
@@ -123,7 +120,7 @@
                     $hp = intval($player['hp']);
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
-                    $summary = $summary['summary'];
+                    $summary = $player['summary'];
                     $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
                 }
             }
@@ -143,7 +140,7 @@
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
                     $id = intval($player['id']);
-                    $summary = $summary['summary'];
+                    $summary = $player['summary'];
                     $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
                     return $found_player;
                 }
@@ -162,7 +159,7 @@
                 $ac   = intval($player['ac']);
                 $init = intval($player['init']);
                 $id   = intval($player['id']);
-                $summary = $summary['summary'];
+                $summary = $player['summary'];
 
                 $next_player = new Player($name, $hp, $ac, $init, $summary, $id);
 
