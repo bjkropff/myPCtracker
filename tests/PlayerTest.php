@@ -168,8 +168,25 @@
             // echo("Name set \n");
         }
 
-
         function test_setSummary()
+        {
+          //Arrange
+          $name = "LL";
+          $hp = 15;
+          // $mail = "player@place.com";
+          $init = 11;
+          $ac = 10;
+          $summary = "myimage.jpg";
+          $test_player = new Player($name, $hp, $ac, $init, $summary);
+          //Act
+          $test_player->setSummary("21");
+          $healing = $test_player->getSummary();
+          //Assert
+          $this->assertEquals($healing, "21");
+          // echo("Name set \n");
+        }
+
+        function test_getIsNotEnemy()
         {
             //Arrange
             $name = "LL";
@@ -178,15 +195,69 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+
             //Act
-            $test_player->setSummary("21");
-            $healing = $test_player->getSummary();
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
+
             //Assert
-            $this->assertEquals($healing, "21");
+            $this->assertEquals($test_player->getEnemy(), false);
             // echo("Name set \n");
         }
 
+        function test_getIsEnemy()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            $summary = "myimage.jpg";
+            $enemy = 1;
+            //Act
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy);
+
+            //Assert
+            $this->assertEquals($test_player->getEnemy(), true);
+            // echo("Name set \n");
+        }
+
+        function test_setIsNotEnemy()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            $summary = "myimage.jpg";
+
+            //Act
+            $test_player = new Player($name, $hp, $ac, $init, $summary);
+
+            //Assert
+            $this->assertEquals($test_player->getEnemy(), false);
+            // echo("Name set \n");
+        }
+
+        function test_setIsEnemy()
+        {
+            //Arrange
+            $name = "LL";
+            $hp = 15;
+            // $mail = "player@place.com";
+            $init = 11;
+            $ac = 10;
+            $summary = "myimage.jpg";
+            $enemy = 1;
+
+            //Act
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy);
+
+            //Assert
+            $this->assertEquals($test_player->getEnemy(), true);
+            // echo("Name set \n");
+        }
 
         function test_save()
         {
@@ -399,7 +470,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $this->assertEquals($final_hp, $result);
         }
 
-        function test_orderInit()
+        function test_orderWithName()
         {
         //Arrange first
         $name = "Tonka";
@@ -408,7 +479,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $ac = 0;
         $id = 0;
         $summary = "myimage.jpg";
-$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+        $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
         $executed = $test_player->save();
 
         $name = "Bindi";
@@ -417,27 +488,85 @@ $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
         $ac = 1;
         $id = 1;
         $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+        $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $executed1 = $test_player1->save();
 
+        $name = "Karrik";
+        $hp = 28;
+        $init = 9;
+        $ac = 1;
+        $id = 1;
+        $summary = "myimage.jpg";
+        $test_player2 = new Player($name, $hp, $ac, $init, $summary, $id);
+        $executed1 = $test_player2->save();
 
         $rolls_array = [
             "Tonka" => 15,
+            "Karrik" => 25,
             "Bindi" => 10,
         ];
-        // $test_player->save();
-        // $test_player1->save();
-        // $test_player2->save();
-        // $test_player3->save();
-        //
+
         //Act
 
-         $order = Player::orderByInit($rolls_array);
+         $order = Player::orderWithName($rolls_array);
 
         //Assert
-        $this->assertEquals([$order[0]->getName(), $order[1]->getName()],["Tonka", "Bindi"]);
+        $this->assertEquals([$order[0]->getName(), $order[1]->getName(), $order[2]->getName()],["Karrik", "Tonka", "Bindi"]);
        }
 
+       function test_addEnemyToOrder()
+       {
+       //Arrange first
+       $name = "Tonka";
+       $hp1 = 12;
+       $init = 3;
+       $ac = 0;
+       $id = 0;
+       $summary = "myimage.jpg";
+       $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+       $executed = $test_player->save();
+
+       $name = "Bindi";
+       $hp = 28;
+       $init = 9;
+       $ac = 1;
+       $id = 1;
+       $summary = "myimage.jpg";
+       $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $executed1 = $test_player1->save();
+
+       $name = "Karrik";
+       $hp = 28;
+       $init = 9;
+       $ac = 1;
+       $id = 1;
+       $summary = "myimage.jpg";
+       $test_player2 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $executed1 = $test_player2->save();
+
+       $rolls_array = [
+           "Tonka" => 15,
+           "Karrik" => 25,
+           "Bindi" => 10,
+       ];
+
+       $order = Player::orderWithName($rolls_array);
+
+       //Act
+       $name = "Dragon";
+       $hp = 28;
+       $init = 9;
+       $ac = 1;
+       $id = 1;
+       $summary = "myimage.jpg";
+       $test_player3 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $executed1 = $test_player3->save();
+
+       $order = Player::addEnemyToOrder($order, $test_player3);
+
+       //Assert
+       $this->assertEquals([$order[0]->getName(), $order[1]->getName(), $order[2]->getName(), $order[3]->getName()],["Karrik", "Tonka", "Bindi", "Dragon"]);
+       }
 
 
     }

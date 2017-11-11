@@ -9,13 +9,14 @@
         private $id;
 
 
-        function __construct($name, $hp, $ac, $init, $summary, $id = null)
+        function __construct($name, $hp, $ac, $init, $summary, $enemy = 0, $id = null)
         {
             $this->name = $name;
             $this->hp = $hp;
             $this->ac = $ac;
             $this->init = $init;
             $this->summary = $summary;
+            $this->enemy = $enemy;
             $this->id = $id;
         }
 
@@ -56,6 +57,11 @@
           $this->summary = (string) $new_summary;
         }
 
+        function setEnemy($new_enemy)
+        {
+          $this->enemy = (int) $new_enemy;
+        }
+
         //GETS
         function getAc()
         {
@@ -82,6 +88,11 @@
             return $this->name;
         }
 
+        function getEnemy()
+        {
+            return $this->enemy;
+        }
+
         function getSummary()
         {
           return $this->summary;
@@ -91,7 +102,7 @@
         function save()
         {
             $thisname = $this->getName();
-            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary) VALUES ('{$this->getName()}', '{$this->getHp()}', '{$this->getAc()}', '{$this->getInit()}', '{$this->getSummary()}');");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary, enemy) VALUES ('{$this->getName()}', '{$this->getHp()}', '{$this->getAc()}', '{$this->getInit()}', '{$this->getSummary()}', '{$this->getEnemy()}');");
             $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$this->getName()}'; ");
             foreach($returned_players as $player)
             {
@@ -121,7 +132,8 @@
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
                     $summary = $player['summary'];
-                    $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
+                    $enemy = $player['enemy'];
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
                 }
             }
             return $found_player;
@@ -141,7 +153,8 @@
                     $init = intval($player['init']);
                     $id = intval($player['id']);
                     $summary = $player['summary'];
-                    $found_player = new Player($name, $hp, $ac, $init, $summary, $id);
+                    $enemy = $player['enemy'];
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
                     return $found_player;
                 }
             }
@@ -161,7 +174,9 @@
                 $id   = intval($player['id']);
                 $summary = $player['summary'];
 
-                $next_player = new Player($name, $hp, $ac, $init, $summary, $id);
+                $enemy = intval($player['enemy']);
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+
 
                 array_push($players, $next_player);
             }
@@ -219,18 +234,16 @@
             return $order;
         }
 
-        static function orderByRoll($rolls_array)
+        static function orderWithName($rolls_array)
         {
             $order = array();
-            $count = 0;
 
             $returned_players = Player::getAllPlayers();
             foreach($returned_players as $player)
             {
-                $p_init = $rolls_array[$count];
-                $player->setInit($p_init);
-                array_push($order, $player);
-                $count++;
+              $player->setInit($rolls_array[$player->getName()]);
+              array_push($order, $player);
+
             }
 
             usort($order, function($first, $next)
@@ -248,6 +261,26 @@
             return $order;
         }
 
+
+
+        static function addEnemyToOrder($order, $test_player3)
+        {
+            array_push($order, $test_player3);
+
+            usort($order, function($first, $next)
+            {
+                if ($first->getInit() <= $next->getInit())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            });
+
+            return $order;
+        }
 
 
     }

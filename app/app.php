@@ -68,31 +68,47 @@
         return $app['twig']->render('init.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
       });
 
-    $app->post("/init", function() use ($app) {
-        //$characters = Player::getAllPlayers();
-
-        // $addTonka = intval($_POST['init_Tonka']);
-        // $addLL = intval($_POST['init_LL']);
-        // $addBindi = intval($_POST['init_Bindi']);
-        // $addKarrik = intval($_POST['init_Karrik']);
-        // foreach($characters as $char)
-        // {
-        //
-        // }
-
+    //Setting up '/add_enemy' coming from the home page
+    $app->post("/add_enemy", function() use ($app) {
         $rolls_array = [
-            // "Bindi" => intval($_POST['init_Bindi']),
-            // "LL" => intval($_POST['init_LL']),
-            // "Karrik" => intval($_POST['init_Karrik'])
-            // "Tonka" => intval($_POST['init_Tonka']),
-
-            intval($_POST['init_Bindi']),
-            intval($_POST['init_LL']),
-            intval($_POST['init_Karrik']),
-            intval($_POST['init_Tonka'])
+            "Bindi" => intval($_POST['init_Bindi']),
+            "LL" => intval($_POST['init_LL']),
+            "Karrik" => intval($_POST['init_Karrik']),
+            "Tonka" => intval($_POST['init_Tonka']),
         ];
 
-        $_SESSION['order_of_init'] = Player::orderByRoll($rolls_array);
+        $_SESSION['order_of_init'] = Player::orderWithName($rolls_array);
+
+        return $app['twig']->render('addEnemy.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
+    });
+
+    //Coming from the add_enemy page
+    $app->post("/another_enemy", function() use ($app) {
+
+        $name = $_POST['name'];
+        $hp = intval($_POST['hp']);
+        $init = intval($_POST['init']);
+        $ac = intval($_POST['ac']);
+        $summary = "";
+        $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy = 1);
+        //$test_player3->save();
+
+        $_SESSION['order_of_init'] = Player::addEnemyToOrder($_SESSION['order_of_init'],  $test_player3);
+
+        return $app['twig']->render('addEnemy.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
+    });
+
+    //Coming from /another_enemy page
+    $app->post("/init", function() use ($app) {
+        $name = $_POST['enemy_name'];
+        $hp = intval($_POST['enemy_hp']);
+        $init = intval($_POST['enemy_init']);
+        $ac = intval($_POST['enemy_ac']);
+        $summary = "";
+        $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy = 1);
+        //$test_player3->save();
+
+        $_SESSION['order_of_init'] = Player::addEnemyToOrder($_SESSION['order_of_init'],  $test_player3);
 
         return $app['twig']->render('init.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
     });
