@@ -19,4 +19,21 @@ $(document).ready(function () {
 
     $('#turn').html(turn);
   });
+
+  $('button#delete').on('click', function (event) {
+    //Hide the 'dead' enemy
+    var enemyName = $(this).parent('li').attr('id');
+    console.log(enemyName);
+    $(this).parent('li').remove();
+
+    //Enemy name will display on turn after being deleted. This reset the turn.
+    var turn = $('.initlist').children(':first').text();
+    $('#turn').html(turn);
+
+
+    $.post('/deleteEnemy/' +  enemyName, function () {}
+    );
+
+  });
+
 });

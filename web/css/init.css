@@ -1,0 +1,7 @@
+.peoplespan {
+  display: flex;
+}
+
+.delete {
+  padding: 0 6;
+}

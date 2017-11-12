@@ -34,11 +34,52 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
+    // GETS
+
+    // Go to homepage
     $app->get("/", function() use ($app) {
       $message = '{{message}}';
-        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers(), 'message' => $message));
+        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPCs(), 'message' => $message));
     });
 
+    $app->get("/init", function() use ($app) {
+        //$users = User::getAll();
+        // $_SESSION['order_of_init'] = array();
+        if (empty($_SESSION['order_of_init'])) {
+          $_SESSION['order_of_init'] = Player::orderByInit([0,0,0,0]);
+        }
+
+        // $order = $_SESSION['order_of_init'];
+
+        return $app['twig']->render('init.html.twig', array('players' => Player::getAllPCs(), 'enemies' => Player::getAllEnemies(), 'order' => $_SESSION['order_of_init']));
+    });
+
+    $app->get("/enemies", function() use ($app) {
+        //$users = User::getAll();
+        return $app['twig']->render('enemies.html.twig', array('enemies' => Player::getAllEnemies()));
+    });
+
+    $app->get("/add_npcs", function() use ($app) {
+        //$users = User::getAll();
+        return $app['twig']->render('addNpcs.html.twig', array('enemies' => Player::getAllEnemies()));
+    });
+
+    $app->get("/character/{name}", function($name) use ($app) {
+        $character = Player::findByName($name);
+        return $app['twig']->render('character.html.twig', array('player' => $character));
+    });
+
+    $app->get("/redirect", function() use ($app) {
+        $order = $_SESSION['order_of_init'];
+        $turn_end = array_shift($order);
+        array_push($order, $turn_end);
+        $_SESSION['order_of_init'] = $order;
+        return $app['twig']->render('redirect.html.twig');
+    });
+
+    // POSTS
+
+    // From the HP edit page. This need to be changed as posting to the Homepage is not a great idea.
     $app->post("/", function() use ($app) {
         $id = intval($_POST['id']);
         $updatedHp = intval($_POST['hp']);
@@ -48,28 +89,11 @@
         {
             $character->updateHp($updatedHp, $oldHp);
         }
-        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPlayers()));
+        return $app['twig']->render('index.html.twig', array('players' => Player::getAllPCs()));
     });
 
-    $app->get("/character/{name}", function($name) use ($app) {
-        $character = Player::findByName($name);
-        return $app['twig']->render('character.html.twig', array('player' => $character));
-    });
-
-    $app->get("/init", function() use ($app) {
-        //$users = User::getAll();
-        // $_SESSION['order_of_init'] = array();
-        if (empty($_SESSION['order_of_init'])) {
-          $_SESSION['order_of_init'] = Player::orderByRoll([0,0,0,0]);
-        }
-
-        // $order = $_SESSION['order_of_init'];
-
-        return $app['twig']->render('init.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
-      });
-
-    //Setting up '/add_enemy' coming from the home page
-    $app->post("/add_enemy", function() use ($app) {
+    //Setting up '/add_enemy' coming from the homepage
+    $app->post("/add_npcs", function() use ($app) {
         $rolls_array = [
             "Bindi" => intval($_POST['init_Bindi']),
             "LL" => intval($_POST['init_LL']),
@@ -77,13 +101,13 @@
             "Tonka" => intval($_POST['init_Tonka']),
         ];
 
-        $_SESSION['order_of_init'] = Player::orderWithName($rolls_array);
+        $_SESSION['order_of_init'] = Player::orderWithPCName($rolls_array);
 
-        return $app['twig']->render('addEnemy.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
+        return $app['twig']->render('addNpcs.html.twig', array('enemies' => Player::getAllEnemies(), 'order' => $_SESSION['order_of_init']));
     });
 
     //Coming from the add_enemy page
-    $app->post("/another_enemy", function() use ($app) {
+    $app->post("/another_npc", function() use ($app) {
 
         $name = $_POST['name'];
         $hp = intval($_POST['hp']);
@@ -91,14 +115,14 @@
         $ac = intval($_POST['ac']);
         $summary = "";
         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy = 1);
-        //$test_player3->save();
+        $test_player3->save();
 
         $_SESSION['order_of_init'] = Player::addEnemyToOrder($_SESSION['order_of_init'],  $test_player3);
 
-        return $app['twig']->render('addEnemy.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
+        return $app['twig']->render('addNpcs.html.twig', array('enemies' => Player::getAllEnemies(), 'order' => $_SESSION['order_of_init']));
     });
 
-    //Coming from /another_enemy page
+    //Coming from /another_enemy page to the init page
     $app->post("/init", function() use ($app) {
         $name = $_POST['enemy_name'];
         $hp = intval($_POST['enemy_hp']);
@@ -106,36 +130,22 @@
         $ac = intval($_POST['enemy_ac']);
         $summary = "";
         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy = 1);
-        //$test_player3->save();
+        $test_player3->save();
 
         $_SESSION['order_of_init'] = Player::addEnemyToOrder($_SESSION['order_of_init'],  $test_player3);
 
-        return $app['twig']->render('init.html.twig', array('players' => Player::getAllPlayers(), 'order' => $_SESSION['order_of_init']));
+        return $app['twig']->render('init.html.twig', array('players' => Player::getAllPCs(), 'enemies' => Player::getAllEnemies(), 'order' => $_SESSION['order_of_init']));
     });
 
-    $app->get("/redirect", function() use ($app) {
-        //$users = User::getAll();
-        $order = $_SESSION['order_of_init'];
+    $app->post("/deleteEnemy/{id}", function($id) use ($app) {
+        Player::deleteEnemy($id);
+        $current_player_turn = $_SESSION['order_of_init'][0]->getName();
+        //echo($current_player_turn->getName());
+        $_SESSION['order_of_init'] = Player::orderAllByInit();
+        if ($_SESSION['order_of_init'][0]->getName == $current_player_turn)
 
-        $turn_end = array_shift($order);
-        array_push($order, $turn_end);
-        $_SESSION['order_of_init'] = $order;
+        //$users = User::getAll();
         return $app['twig']->render('redirect.html.twig');
-    });
-
-    $app->get("/enemies", function() use ($app) {
-        //$users = User::getAll();
-        return $app['twig']->render('enemies.html.twig', array('enemies' => Player::getAllPlayers()));
-    });
-
-    $app->get("/add_enemy", function() use ($app) {
-        //$users = User::getAll();
-        return $app['twig']->render('enemies.html.twig', array('enemies' => Player::getAllPlayers()));
-    });
-
-    $app->post("/enemies", function() use ($app) {
-        //$users = User::getAll();
-        return $app['twig']->render('enemies.html.twig', array('enemies' => Player::getAllPlayers()));
     });
 
 

@@ -102,6 +102,7 @@
         function save()
         {
             $thisname = $this->getName();
+
             $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary, enemy) VALUES ('{$this->getName()}', '{$this->getHp()}', '{$this->getAc()}', '{$this->getInit()}', '{$this->getSummary()}', '{$this->getEnemy()}');");
             $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$this->getName()}'; ");
             foreach($returned_players as $player)
@@ -205,19 +206,9 @@
             }
         }
 
-        static function orderByInit($rolls_array)
+        static function orderAllByInit()
         {
-            $order = array();
-            $count = 0;
-
-            $returned_players = Player::getAllPlayers();
-            foreach($returned_players as $player)
-            {
-                $p_init = $player->getInit() + $rolls_array[$count];
-                $player->setInit($p_init);
-                array_push($order, $player);
-                $count++;
-            }
+            $order = Player::getAllPlayers();
 
             usort($order, function($first, $next)
             {
@@ -234,11 +225,14 @@
             return $order;
         }
 
-        static function orderWithName($rolls_array)
+        static function orderWithPCName($rolls_array)
         {
             $order = array();
+            $returned_players = Player::getAllPCs();
+            // print($returned_players[0]->getName());
+            // print($returned_players[2]->getName());
+            // print($returned_players[3]->getName());
 
-            $returned_players = Player::getAllPlayers();
             foreach($returned_players as $player)
             {
               $player->setInit($rolls_array[$player->getName()]);
@@ -282,6 +276,64 @@
             return $order;
         }
 
+        static function deleteEnemy($delete_enemy_id)
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM characters WHERE id = '{$delete_enemy_id}';");
+
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        static function getAllPCs()
+        {
+            $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE enemy = 0");
+            //print($GLOBALS['DB']->query("SELECT * FROM characters WHERE enemy = 0"));
+
+            $players = array();
+            foreach($returned_players as $player)
+            {
+                $name = $player['name'];
+                $hp   = intval($player['hp']);
+                $ac   = intval($player['ac']);
+                $init = intval($player['init']);
+                $id   = intval($player['id']);
+                $summary = $player['summary'];
+
+                $enemy = intval($player['enemy']);
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                // print($next_player->getName())
+
+                array_push($players, $next_player);
+            }
+
+            return $players;
+        }
+
+        static function getAllEnemies()
+        {
+            $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE enemy = 1");
+            $players = array();
+            foreach($returned_players as $player)
+            {
+                $name = $player['name'];
+                $hp   = intval($player['hp']);
+                $ac   = intval($player['ac']);
+                $init = intval($player['init']);
+                $id   = intval($player['id']);
+                $summary = $player['summary'];
+
+                $enemy = intval($player['enemy']);
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+
+
+                array_push($players, $next_player);
+            }
+
+            return $players;
+        }
 
     }
 ?>

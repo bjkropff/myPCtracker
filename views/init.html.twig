@@ -2,6 +2,8 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/stylesIndex.css" >
+  <link rel="stylesheet" href="/css/init.css" >
+
   <script
     src="http://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -17,6 +19,9 @@
         <nav>
           <ul class="nav nav-pills pull-right collapse navbar-collapse">
             <li role="presentation" class="active"><a href="/">Home</a></li>
+            <li role="presentation" class="active"><a href="/add_npcs">Add NPCs</a></li>
+            <li role="presentation" class="active"><a href="/enemies">Enemies</a></li>
+
             <!-- <li role="presentation"><a href="/login">login</a></li> -->
           </ul>
         </nav>
@@ -47,7 +52,12 @@
           <h4>Initaltive list:</h4>
           <ul class="initlist">
             {% for turn in order %}
-            <li id="{{turn.getId}}" class="{{turn.getInit}}">{{turn.name}}</li>
+            <span class="peoplespan">
+              <li id="{{turn.getId}}" class="{{turn.getInit}}">{{turn.name}}</li>
+              {% if turn.enemy == true %}
+                <button class="btn btn-danger delete" id="delete" name="button">X</button>
+              {% endif %}
+            </span>
             {% endfor %}
           </ul>
           <button class="btn btn-primary" id="next">Next</button>
@@ -55,8 +65,26 @@
 
         <div class="col-sm-4">
           <h4>Turn: </h4>
-          <h1 id="turn">test</h1>
+          <h1 id="turn"></h1>
         </div>
+      </div>
+      <div class="jumbotron">
+          <div class="row">
+              {% for enemy in enemies %}
+              <div class="col-sm-3" id={{enemy.id}}>
+                  <a href="/character/{{ enemy.getName }}"><h3>{{ enemy.getName }}</h3></a>
+                  <div class="stats">
+                      <p>AC: {{ enemy.getAc }}</p>
+                      <p>Init: {{ enemy.getInit }}</p>
+                      <form class="" action="/" method="post">
+                        <p>Hit Points: </p>
+                        <input type="text" name="" value="{{ enemy.getHp }}">
+                        <button class="btn btn-primary" id="{{ enemy.id }}" type="button" name="button">Update</button>
+                      </form>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
       </div>
     </div>
     <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>

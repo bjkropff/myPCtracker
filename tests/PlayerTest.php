@@ -274,7 +274,8 @@
             $init = 11;
             $ac = 0;
             $summary = "myimage.jpg";
-            $test_player2 = new Player($name, $hp, $ac, $init, $summary);
+            $enemy = 1;
+            $test_player2 = new Player($name, $hp, $ac, $init, $summary, $enemy);
 
             //Act
             $isSaved = $test_player1->save();
@@ -284,11 +285,10 @@
                 $isSaved == false;
             }
 
-            $isSaved = $isSaved + $isSaved;
-
+            //$isSaved = $isSaved + $isSaved;
             // Assert
-            // $this->assertEquals($test_player1, $isSaved2 == 0);
-            $this->assertTrue(is_numeric($isSaved)&&$isSaved != 0);
+            //$this->assertEquals($test_player2, $isSaved2 != null);
+            $this->assertTrue(is_numeric($isSaved)&&$isSaved != null);
         }
 
         function test_findById()
@@ -328,14 +328,14 @@
             $init = 21;
             $ac = 0;
             $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary);
+            $test_player1 = new Player($name, $hp, $ac, $init, $summary);
 
             $name = "Karrik";
             $hp = 24;
             $init = 11;
             $ac = 0;
             $summary = "myimage.jpg";
-$test_player2 = new Player($name, $hp, $ac, $init, $summary);
+            $test_player2 = new Player($name, $hp, $ac, $init, $summary);
 
             $test_player1->save();
             $test_player2->save();
@@ -358,7 +358,7 @@ $test_player2 = new Player($name, $hp, $ac, $init, $summary);
           $init = 8;
           $ac = 10;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp, $ac, $init, $summary);
+          $test_player = new Player($name, $hp, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -367,7 +367,7 @@ $test_player = new Player($name, $hp, $ac, $init, $summary);
           $init = 13;
           $ac = 12;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary);
+          $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -389,7 +389,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $ac = 0;
           $id = 0;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp, $ac, $init, $summary, $id);
+          $test_player = new Player($name, $hp, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -399,7 +399,7 @@ $test_player = new Player($name, $hp, $ac, $init, $summary, $id);
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+$test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -418,7 +418,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $ac = 0;
           $id = 0;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+$test_player = new Player($name, $hp1, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -428,7 +428,7 @@ $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+$test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -448,7 +448,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $ac = 0;
           $id = 0;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+$test_player = new Player($name, $hp1, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -458,7 +458,7 @@ $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+$test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -470,7 +470,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
           $this->assertEquals($final_hp, $result);
         }
 
-        function test_orderWithName()
+        function test_orderAllByInit()
         {
         //Arrange first
         $name = "Tonka";
@@ -479,8 +479,9 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $ac = 0;
         $id = 0;
         $summary = "myimage.jpg";
-        $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+        $test_player = new Player($name, $hp1, $ac, $init, $summary);
         $executed = $test_player->save();
+        // print($executed);
 
         $name = "Bindi";
         $hp = 28;
@@ -488,8 +489,69 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $ac = 1;
         $id = 1;
         $summary = "myimage.jpg";
-        $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+        $test_player1 = new Player($name, $hp, $ac, $init, $summary);
         $executed1 = $test_player1->save();
+        // print($executed1);
+
+
+        $name = "Karrik";
+        $hp = 28;
+        $init = 5;
+        $ac = 1;
+        $id = 1;
+        $summary = "myimage.jpg";
+        $test_player2 = new Player($name, $hp, $ac, $init, $summary);
+        $executed2 = $test_player2->save();
+        // print($executed2);
+
+        $name = "Dragon";
+        $hp = 28;
+        $init = 7;
+        $ac = 1;
+        $enemy = 1;
+        $summary = "myimage.jpg";
+        $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy );
+        $executed1 = $test_player3->save();
+
+        //Act
+          $order_array = array();
+          $order = Player::orderAllByInit();
+          //print($order);
+
+          foreach( $order as $single_player)
+          {
+            array_push($order_array, $single_player->getName());
+          }
+
+          // print($order_array[0]);
+
+        //Assert
+        $this->assertEquals(["Bindi", "Dragon", 'Karrik', "Tonka"], $order_array);
+       }
+
+        function test_orderWithPCName()
+        {
+        //Arrange first
+        $name = "Tonka";
+        $hp1 = 12;
+        $init = 3;
+        $ac = 0;
+        $id = 0;
+        $summary = "myimage.jpg";
+        $test_player = new Player($name, $hp1, $ac, $init, $summary);
+        $executed = $test_player->save();
+        // print($executed);
+
+        $name = "Bindi";
+        $hp = 28;
+        $init = 9;
+        $ac = 1;
+        $id = 1;
+        $summary = "myimage.jpg";
+        $test_player1 = new Player($name, $hp, $ac, $init, $summary);
+        $executed1 = $test_player1->save();
+        // print($executed1);
+
 
         $name = "Karrik";
         $hp = 28;
@@ -497,8 +559,9 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         $ac = 1;
         $id = 1;
         $summary = "myimage.jpg";
-        $test_player2 = new Player($name, $hp, $ac, $init, $summary, $id);
-        $executed1 = $test_player2->save();
+        $test_player2 = new Player($name, $hp, $ac, $init, $summary);
+        $executed2 = $test_player2->save();
+        // print($executed2);
 
         $rolls_array = [
             "Tonka" => 15,
@@ -507,11 +570,22 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
         ];
 
         //Act
+          $order_array = array();
 
-         $order = Player::orderWithName($rolls_array);
+          // $order = Player::getAllPCs();
+
+          $order = Player::orderWithPCName($rolls_array);
+          //print($order);
+
+          foreach( $order as $single_player)
+          {
+            array_push($order_array, $single_player->getName());
+          }
+
+          // print($order_array[0]);
 
         //Assert
-        $this->assertEquals([$order[0]->getName(), $order[1]->getName(), $order[2]->getName()],["Karrik", "Tonka", "Bindi"]);
+        $this->assertEquals($order_array,['Karrik', "Tonka", "Bindi"]);
        }
 
        function test_addEnemyToOrder()
@@ -523,7 +597,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
        $ac = 0;
        $id = 0;
        $summary = "myimage.jpg";
-       $test_player = new Player($name, $hp1, $ac, $init, $summary, $id);
+       $test_player = new Player($name, $hp1, $ac, $init, $summary);
        $executed = $test_player->save();
 
        $name = "Bindi";
@@ -532,7 +606,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
        $ac = 1;
        $id = 1;
        $summary = "myimage.jpg";
-       $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $test_player1 = new Player($name, $hp, $ac, $init, $summary );
        $executed1 = $test_player1->save();
 
        $name = "Karrik";
@@ -541,7 +615,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
        $ac = 1;
        $id = 1;
        $summary = "myimage.jpg";
-       $test_player2 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $test_player2 = new Player($name, $hp, $ac, $init, $summary );
        $executed1 = $test_player2->save();
 
        $rolls_array = [
@@ -550,24 +624,143 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary, $id);
            "Bindi" => 10,
        ];
 
-       $order = Player::orderWithName($rolls_array);
+       $order = Player::orderWithPCName($rolls_array);
 
        //Act
        $name = "Dragon";
        $hp = 28;
        $init = 9;
        $ac = 1;
-       $id = 1;
+       $enemy = 1;
        $summary = "myimage.jpg";
-       $test_player3 = new Player($name, $hp, $ac, $init, $summary, $id);
+       $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy );
        $executed1 = $test_player3->save();
 
        $order = Player::addEnemyToOrder($order, $test_player3);
 
-       //Assert
-       $this->assertEquals([$order[0]->getName(), $order[1]->getName(), $order[2]->getName(), $order[3]->getName()],["Karrik", "Tonka", "Bindi", "Dragon"]);
+       $order_array = array();
+
+       foreach( $order as $single_player)
+       {
+         array_push($order_array, $single_player->getName());
        }
 
+       //Assert
+       $this->assertEquals($order_array,["Karrik", "Tonka", "Bindi", "Dragon"]);
+       }
+
+       function test_deleteEnemy()
+       {
+         //Arrange first
+         $name = "Tonka";
+         $hp1 = 12;
+         $init = 8;
+         $ac = 0;
+         $id = 0;
+         $summary = "myimage.jpg";
+         $test_player = new Player($name, $hp1, $ac, $init, $summary);
+         $executed = $test_player->save();
+
+         //Arrange second
+         $name = "Bindi";
+         $hp = 28;
+         $init = 1;
+         $ac = 1;
+         $id = 1;
+         $summary = "myimage.jpg";
+         $test_player1 = new Player($name, $hp, $ac, $init, $summary);
+         $executed1 = $test_player1->save();
+
+         $name = "Dragon";
+         $hp = 28;
+         $init = 9;
+         $ac = 1;
+         $id = 1;
+         $summary = "myimage.jpg";
+         $enemy = 1;
+         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy);
+         $executed1 = $test_player3->save();
+
+         //Act
+         Player::deleteEnemy($test_player3->getId());
+
+         $list_of_players = Player::getAllPlayers();
+
+         //Assert
+         $this->assertEquals([$test_player, $test_player1], $list_of_players);
+       }
+
+       function test_getAllPCs()
+       {
+         //Arrange first
+         $name = "Tonka";
+         $hp = 12;
+         $init = 8;
+         $ac = 0;
+         $id = 0;
+         $summary = "myimage.jpg";
+         $test_player = new Player($name, $hp, $ac, $init, $summary);
+         $executed = $test_player->save();
+
+         //Arrange second
+         $name = "Bindi";
+         $hp = 28;
+         $init = 1;
+         $ac = 1;
+         $id = 1;
+         $summary = "myimage.jpg";
+         $enemy = 1;
+         $test_player1 = new Player($name, $hp, $ac, $init, $summary, $enemy );
+         $executed1 = $test_player1->save();
+
+         //Act
+         $result = Player::getAllPCs();
+         //print($result[0]->getName());
+
+         //Assert
+         $this->assertEquals($test_player, $result[0]);
+       }
+
+       function test_removeEnemyFromInit()
+       {
+         //Arrange first
+         $name = "Tonka";
+         $hp1 = 12;
+         $init = 8;
+         $ac = 0;
+         $id = 0;
+         $summary = "myimage.jpg";
+         $test_player = new Player($name, $hp1, $ac, $init, $summary);
+         $executed = $test_player->save();
+
+         //Arrange second
+         $name = "Bindi";
+         $hp = 28;
+         $init = 1;
+         $ac = 1;
+         $id = 1;
+         $summary = "myimage.jpg";
+         $test_player1 = new Player($name, $hp, $ac, $init, $summary);
+         $executed1 = $test_player1->save();
+
+         $name = "Dragon";
+         $hp = 28;
+         $init = 9;
+         $ac = 1;
+         $id = 1;
+         $summary = "myimage.jpg";
+         $enemy = 1;
+         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy);
+         $executed1 = $test_player3->save();
+
+         //Act
+         Player::deleteEnemy($test_player3->getId());
+
+         $list_of_players = Player::getAllPlayers();
+
+         //Assert
+         $this->assertEquals([$test_player, $test_player1], $list_of_players);
+       }
 
     }
 ?>
