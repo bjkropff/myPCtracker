@@ -20,9 +20,9 @@
         </div>
 
         <div class="col-sm-12">
-          <h2>Add Enemies: </h2>
+          <h2>{{ team_name }}: </h2>
 
-          <form action="/another_npc" method="post">
+          <form action="/{{team_name}}/another_player" method="post">
               <label for="name">Name:</label>
               <input id="name" name="name" type="text" required>
               <label for="ac">AC:</label>
@@ -31,11 +31,9 @@
               <input id="hp" name="hp" type="text">
               <label for="init">Init:</label>
               <input id="init" name="init" type="text">
-              <button class="btn btn-success" type="submit">Add</button>
+              <button class="btn btn-success" type="submit"> Add:</button>
           </form>
-          <div class="nav nav-pills">
-            <li role="presentation" class=" active"><a href="/init">Init</a></li>
-          </div>
+          <li role="presentation" class="active"><a href="/{{team_name}}">Go to team page</a></li>
         </div>
       </div>
     </div>

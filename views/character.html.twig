@@ -16,6 +16,10 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/">Home</a></li>
+            <li role="presentation" class="active"><a href="/myteam">My Team</a></li>
+            <li role="presentation" class="active"><a href="/add_npcs">Add NPCs</a></li>
+            <li role="presentation" class="active"><a href="/enemies">Enemies</a></li>
+
             <!-- <li role="presentation"><a href="/login">login</a></li> -->
 
           </ul>
@@ -27,7 +31,7 @@
           <div class="row">
               <div class="col-sm-12 stats">
                 <h3>{{ player.getName }}</h3>
-                <form action='/' method='post'>
+                <form action='/myteam' method='post'>
                     <div class="stats">
                         <p>AC: {{ player.getAc }}</p>
                         <p>Hit Points: {{ player.getHp }}</p>
@@ -35,6 +39,8 @@
                         <input id='hp' name='hp' type='text' required>
                         <input id="id" name="id" type="hidden" value="{{ player.getId }}">
                         <p>Init: {{ player.getInit }}</p>
+                        <label for='summary'>Player summary:</label>
+                        <input id='summary' name='summary' type='text' value="{{ player.getSummary }}">
                     </div>
                     <div>
                       <button class="btn btn-success" type='submit'>Edit</button>

@@ -6,10 +6,11 @@
         private $ac;
         private $init;
         private $summary;
+        private $enemy;
+        private $id_team;
         private $id;
 
-
-        function __construct($name, $hp, $ac, $init, $summary, $enemy = 0, $id = null)
+        function __construct($name, $hp, $ac, $init, $summary, $enemy = 0, $id_team = null, $id = null)
         {
             $this->name = $name;
             $this->hp = $hp;
@@ -17,6 +18,7 @@
             $this->init = $init;
             $this->summary = $summary;
             $this->enemy = $enemy;
+            $this->id_team = $id_team;
             $this->id = $id;
         }
 
@@ -62,6 +64,16 @@
           $this->enemy = (int) $new_enemy;
         }
 
+        function setIdTeam($new_id_team)
+        {
+          $this->id_team = (int) $new_id_team;
+        }
+
+        function getIdTeam()
+        {
+          return $this->id_team;
+        }
+
         //GETS
         function getAc()
         {
@@ -103,14 +115,22 @@
         {
             $thisname = $this->getName();
 
-            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary, enemy) VALUES ('{$this->getName()}', '{$this->getHp()}', '{$this->getAc()}', '{$this->getInit()}', '{$this->getSummary()}', '{$this->getEnemy()}');");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO characters (name, hp, ac, init, summary, enemy, id_team) VALUES (
+              '{$this->getName()}',
+              '{$this->getHp()}',
+              '{$this->getAc()}',
+              '{$this->getInit()}',
+              '{$this->getSummary()}',
+              '{$this->getEnemy()}',
+              '{$this->getIdTeam()}'
+            );");
             $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE name = '{$this->getName()}'; ");
             foreach($returned_players as $player)
             {
                 if($thisname == $player['name'])
                 {
                   $id = intval($player['id']);
-                  $this->id = $id;
+                  $this->setId($id);
 
                   return $id;
                 }
@@ -133,8 +153,9 @@
                     $ac = intval($player['ac']);
                     $init = intval($player['init']);
                     $summary = $player['summary'];
-                    $enemy = $player['enemy'];
-                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                    $enemy = intval($player['enemy']);
+                    $id_team = intval($player['id_team']);
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
                 }
             }
             return $found_player;
@@ -154,8 +175,9 @@
                     $init = intval($player['init']);
                     $id = intval($player['id']);
                     $summary = $player['summary'];
-                    $enemy = $player['enemy'];
-                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                    $enemy = intval($player['enemy']);
+                    $id_team = intval($player['id_team']);
+                    $found_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
                     return $found_player;
                 }
             }
@@ -174,9 +196,9 @@
                 $init = intval($player['init']);
                 $id   = intval($player['id']);
                 $summary = $player['summary'];
-
                 $enemy = intval($player['enemy']);
-                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                $id_team = intval($player['id_team']);
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
 
 
                 array_push($players, $next_player);
@@ -200,6 +222,17 @@
             $executed = $GLOBALS['DB']->exec("UPDATE characters SET hp = {$new_hp} WHERE id = {$this->getId()};");
             if ($executed) {
                 $this->setHp($new_hp);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function updateSummary($new_summary)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE characters SET summary = {$new_summary} WHERE id = {$this->getId()};");
+            if ($executed) {
+                $this->setSummary($new_summary);
                 return true;
             } else {
                 return false;
@@ -301,9 +334,10 @@
                 $init = intval($player['init']);
                 $id   = intval($player['id']);
                 $summary = $player['summary'];
-
                 $enemy = intval($player['enemy']);
-                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                $id_team = intval($player['id_team']);
+
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
                 // print($next_player->getName())
 
                 array_push($players, $next_player);
@@ -324,9 +358,10 @@
                 $init = intval($player['init']);
                 $id   = intval($player['id']);
                 $summary = $player['summary'];
-
                 $enemy = intval($player['enemy']);
-                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id);
+                $id_team = intval($player['id_team']);
+
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
 
 
                 array_push($players, $next_player);
@@ -335,5 +370,12 @@
             return $players;
         }
 
+        function getTeamName()
+        {
+          $search_id = $this->getIdTeam();
+          $my_team_name = Team::findByTeamID($search_id);
+
+          return $my_team_name->getName();
+        }
     }
 ?>

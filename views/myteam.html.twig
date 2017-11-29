@@ -1,0 +1,64 @@
+<html>
+  <head>
+      <link rel="stylesheet" href="./css/bootstrap.css">
+      <script src="./js/jquery-3.2.1.js" ></script>
+      <link rel="stylesheet" href="./css/stylesIndex.css" >
+      <title>Players</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="active"><a href="/">Home</a></li>
+              <li role="presentation" class="active"><a href="/{{team}}/init">Init</a></li>
+              <li role="presentation" class="active"><a href="/{{team}}/enemies">Enemies</a></li>
+            </ul>
+          </nav>
+          <h3 class="text-muted">Players Page</h3>
+        </div>
+
+        <div class="jumbotron">
+            <div class="row">
+                {% for player in players %}
+                <div class="col-sm-3" id={{player.id}}>
+                    <a href="/character/{{ player.getName }}"><h3>{{ player.getName }}</h3></a>
+                    <div class="stats">
+                      <p>AC: {{ player.getAc }}</p>
+                      <p>Init: {{ player.getInit }}</p>
+                      <p>Hit Point Max:
+                        <span id="{{player.id}}hp">{{ player.getHp }}</span>
+                      </p>
+                      <div id="app-{{player.id}}">
+                        <p>{{ message }}</p>
+                         <input v-model="message">
+                      </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+          <h2>Initive: </h2>
+
+          <form action='/add_npcs' method='post'>
+              {% for player in players %}
+              <div class="col-sm-12">
+                <label for='init_{{player.name}}'>{{player.name}}:</label>
+                <br/>
+                <input id='init_{{player.name}}' name='init_{{player.name}}' type='text' required> + {{player.init}}
+                <input id="{{player.id}}" name="{{player.id}}" type="hidden" value="{{ player.getId }}">
+              </div>
+            {% endfor %}
+            <br/>
+            <button class="btn btn-success" type='submit'> Add :</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+    <script src="../js/vueapp.js" ></script>
+
+  </body>
+</html>

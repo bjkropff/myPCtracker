@@ -9,6 +9,7 @@
     use PHPUnit\Framework\TestCase;
 
     require_once __DIR__."/../src/Player.php";
+    require_once __DIR__."/../src/Team.php";
 
 
     //MySQL database info changing to seetings.php outside of the docroot
@@ -51,7 +52,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary ="", $enemy, $id_team);
             //Act
             $result = $test_player->getName();
             //Assert
@@ -68,7 +71,9 @@
             $ac = 10;
             $init = 11;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Act
             $test_player->setName("George");
@@ -88,7 +93,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Act
             $result = $test_player->getHp();
@@ -106,7 +113,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
             //Act
             $test_player->setHp(21);
             $healing = $test_player->getHp();
@@ -124,7 +133,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Act
             $result = $test_player->getAc();
@@ -142,7 +153,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
             //Act
             $test_player->setAc(21);
             $healing = $test_player->getAc();
@@ -160,7 +173,9 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $id_team = 1;
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
             //Act
             $healing = $test_player->getSummary();
             //Assert
@@ -177,7 +192,9 @@
           $init = 11;
           $ac = 10;
           $summary = "myimage.jpg";
-          $test_player = new Player($name, $hp, $ac, $init, $summary);
+          $id_team = 1;
+          $enemy = 0;
+          $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
           //Act
           $test_player->setSummary("21");
           $healing = $test_player->getSummary();
@@ -195,9 +212,11 @@
             $init = 11;
             $ac = 10;
             $summary = "myimage.jpg";
+            $id_team = 1;
 
             //Act
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $enemy = 0;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Assert
             $this->assertEquals($test_player->getEnemy(), false);
@@ -215,7 +234,8 @@
             $summary = "myimage.jpg";
             $enemy = 1;
             //Act
-            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy);
+            $id_team = 1;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Assert
             $this->assertEquals($test_player->getEnemy(), true);
@@ -233,7 +253,9 @@
             $summary = "myimage.jpg";
 
             //Act
-            $test_player = new Player($name, $hp, $ac, $init, $summary);
+            $enemy = 0;
+            $id_team = 1;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Assert
             $this->assertEquals($test_player->getEnemy(), false);
@@ -252,7 +274,8 @@
             $enemy = 1;
 
             //Act
-            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy);
+            $id_team = 1;
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Assert
             $this->assertEquals($test_player->getEnemy(), true);
@@ -275,7 +298,8 @@
             $ac = 0;
             $summary = "myimage.jpg";
             $enemy = 1;
-            $test_player2 = new Player($name, $hp, $ac, $init, $summary, $enemy);
+            $id_team = 1;
+            $test_player2 = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
 
             //Act
             $isSaved = $test_player1->save();
@@ -399,7 +423,7 @@
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary);
+          $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -418,7 +442,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $ac = 0;
           $id = 0;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp1, $ac, $init, $summary);
+          $test_player = new Player($name, $hp1, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -428,7 +452,7 @@ $test_player = new Player($name, $hp1, $ac, $init, $summary);
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary);
+          $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -448,7 +472,7 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $ac = 0;
           $id = 0;
           $summary = "myimage.jpg";
-$test_player = new Player($name, $hp1, $ac, $init, $summary);
+          $test_player = new Player($name, $hp1, $ac, $init, $summary);
           $executed = $test_player->save();
 
           //Arrange second
@@ -458,7 +482,7 @@ $test_player = new Player($name, $hp1, $ac, $init, $summary);
           $ac = 1;
           $id = 1;
           $summary = "myimage.jpg";
-$test_player1 = new Player($name, $hp, $ac, $init, $summary);
+          $test_player1 = new Player($name, $hp, $ac, $init, $summary);
           $executed1 = $test_player1->save();
 
           //Act
@@ -678,7 +702,8 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
          $id = 1;
          $summary = "myimage.jpg";
          $enemy = 1;
-         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy);
+         $id_team = 1;
+         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
          $executed1 = $test_player3->save();
 
          //Act
@@ -750,7 +775,8 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
          $id = 1;
          $summary = "myimage.jpg";
          $enemy = 1;
-         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy);
+         $id_team = 1;
+         $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
          $executed1 = $test_player3->save();
 
          //Act
@@ -761,6 +787,32 @@ $test_player1 = new Player($name, $hp, $ac, $init, $summary);
          //Assert
          $this->assertEquals([$test_player, $test_player1], $list_of_players);
        }
+
+        function test_getTeamName()
+        {
+          //Arrange first
+          $name = "Tonka";
+          $hp1 = 12;
+          $init = 8;
+          $ac = 0;
+          $id = 0;
+          $summary = "myimage.jpg";
+          $enemey = 0;
+          $new_team = "Goofballs";
+
+          $test_team = new Team($new_team);
+          $id_team = $test_team->save();
+
+          //Act
+          $test_player = new Player($name, $hp1, $ac, $init, $summary, $enemey = 0, $id_team);
+          $executed = $test_player->save();
+
+          $team_name = $test_player->getTeamName();
+          //print($executed . 1);
+
+          //Assert
+          $this->assertEquals($new_team, $team_name);
+        }
 
     }
 ?>
