@@ -3,10 +3,9 @@
     date_default_timezone_set('America/Los_Angeles');
     require_once __DIR__."/../vendor/autoload.php";
 
-    //Class constructors
+    //Class constructors Local
     require_once __DIR__."/../src/Player.php";
     require_once __DIR__."/../src/Team.php";
-
 
     session_start();
     if (empty($_SESSION['order_of_init'])) {
@@ -16,14 +15,19 @@
     $app = new Silex\Application();
 
     //MySQL database info changing to seetings.php outside of the docroot
-    require_once __DIR__."/../../settings.php";
+    //Local
+    require_once __DIR__."/../../settings_local.php";
 
+    //Hosted/Live
+    //require_once __DIR__."/../../../settings.php";
+
+
+    $username = $settings['username'];
+    $password = $settings['password'];
     $server = 'mysql:host=' .
         $settings['host'] . ':' .
         $settings['port'] . ';dbname=' .
         $settings['namedb'];
-    $username = $settings['username'];
-    $password = $settings['password'];
 
     $DB = new PDO($server, $username, $password);
 
@@ -45,8 +49,8 @@
 
     $app->get("/{team}", function($team) use ($app) {
       $message = '{{message}}';
-
-      return $app['twig']->render('myteam.html.twig', array('players' => Player::getAllPCs(), 'team'=> $team, 'message' => $message));
+      Team::getAllPlayersOfTeam();
+      return $app['twig']->render('myteam.html.twig', array('players' => Player::getAllOnSameTeam($team), 'team'=> $team, 'message' => $message));
     });
 
     // From Index, make new team. Add team members

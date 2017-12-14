@@ -377,5 +377,35 @@
 
           return $my_team_name->getName();
         }
+
+        static function getAllOnSameTeam($teamname)
+        {
+
+            $team_id = Team::findByTeamname($teamname);
+
+            $returned_players = $GLOBALS['DB']->query("SELECT * FROM characters WHERE id_team = '{$team_id->getId()}';");
+            //print($GLOBALS['DB']->query("SELECT * FROM characters WHERE enemy = 0"));
+
+            $players = array();
+            foreach($returned_players as $player)
+            {
+                $name = $player['name'];
+                $hp   = intval($player['hp']);
+                $ac   = intval($player['ac']);
+                $init = intval($player['init']);
+                $id   = intval($player['id']);
+                $summary = $player['summary'];
+                $enemy = intval($player['enemy']);
+                $id_team = intval($player['id_team']);
+
+                $next_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team, $id);
+                // print($next_player->getName())
+
+                array_push($players, $next_player);
+            }
+
+            return $players;
+        }
+
     }
 ?>

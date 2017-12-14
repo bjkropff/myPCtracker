@@ -17,12 +17,9 @@
     // $server = 'mysql:host=(localhost or 127 or host ip):(port);dbname=(name))';
     // $username = 'root';
 
-    $server = 'mysql:host=localhost:33067;dbname=test_player';
-    $username = 'root';
-    $password = '';
-
-    // This works with the app.php but not PHPunit testing
-    // require_once __DIR__."/../../settings.php";
+    // You only need the following for one of the test pages
+    // require_once __DIR__."/../../settings_local.php";
+    //
     //
     // $server = 'mysql:host=' .
     //     $settings['host'] . ':' .
@@ -30,10 +27,9 @@
     //     $settings['testdb'];
     // $username = $settings['username'];
     // $password = $settings['password'];
-
-
-    $DB = new PDO($server, $username, $password);
-
+    //
+    //
+    // $DB = new PDO($server, $username, $password);
 
     class PlayerTest extends TestCase
     {
@@ -790,29 +786,87 @@
 
         function test_getTeamName()
         {
-          //Arrange first
-          $name = "Tonka";
-          $hp1 = 12;
-          $init = 8;
-          $ac = 0;
-          $id = 0;
-          $summary = "myimage.jpg";
-          $enemey = 0;
-          $new_team = "Goofballs";
+            //Arrange first
+            $name = "Tonka";
+            $hp1 = 12;
+            $init = 8;
+            $ac = 0;
+            $id = 0;
+            $summary = "myimage.jpg";
+            $enemey = 0;
+            $new_team = "Goofballs";
 
-          $test_team = new Team($new_team);
-          $id_team = $test_team->save();
+            $test_team = new Team($new_team);
+            $id_team = $test_team->save();
 
-          //Act
-          $test_player = new Player($name, $hp1, $ac, $init, $summary, $enemey = 0, $id_team);
-          $executed = $test_player->save();
+            //Act
+            $test_player = new Player($name, $hp1, $ac, $init, $summary, $enemey = 0, $id_team);
+            $executed = $test_player->save();
 
-          $team_name = $test_player->getTeamName();
-          //print($executed . 1);
+            $team_name = $test_player->getTeamName();
+            //print($executed . 1);
 
-          //Assert
-          $this->assertEquals($new_team, $team_name);
+            //Assert
+            $this->assertEquals($new_team, $team_name);
         }
+
+
+
+        function test_allOnSameTeam()
+        {
+            //Arrange first
+            $name = "Goofball";
+            $test_team = new Team($name);
+            $result = $test_team->save();
+
+            $name2 = "CoolKids";
+            $test_team2 = new Team($name2);
+            $result2 = $test_team2->save();
+
+            //Arrange second
+            $name = "Tonka";
+            $hp = 12;
+            $init = 8;
+            $ac = 0;
+            $id = 0;
+            $summary = "myimage.jpg";
+            $enemy = 0;
+            $id_team = $test_team->getId();
+            $test_player = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
+            $executed = $test_player->save();
+
+            //Arrange second
+            $name = "Bindi";
+            $hp = 28;
+            $init = 1;
+            $ac = 1;
+            $id = 1;
+            $summary = "myimage.jpg";
+            $enemy = 0;
+            $id_team = $test_team->getId();
+            $test_player1 = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
+            $executed1 = $test_player1->save();
+
+            $name = "Dragon";
+            $hp = 28;
+            $init = 9;
+            $ac = 1;
+            $id = 1;
+            $summary = "myimage.jpg";
+            $enemy = 1;
+            $id_team = $test_team2->getId();
+            $test_player3 = new Player($name, $hp, $ac, $init, $summary, $enemy, $id_team);
+            $executed2 = $test_player3->save();
+
+            //Act
+            $onteamone = Player::getAllOnSameTeam($test_team->getName());
+
+            // Assert
+            // assertTrue will return the string if false
+            // $this->assertTrue( is_numeric($test_player1->save()));
+            $this->assertEquals(count($onteamone), 2);
+        }
+
 
     }
 ?>
