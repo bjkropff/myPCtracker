@@ -1,7 +1,7 @@
 
 
 # COPIED OVER FROM MY TODO APP
-##Desription
+## Desription
 
 This is a basic To-Do app written in PHP and MySQL with Silex and Twig. Locally, I used Acquia DevDesktop for MySQL and ran a PHP/Apache server .
 
@@ -9,7 +9,7 @@ It is an MVP and should be considered a work-in-progress. For information on how
 
 https://www.learnhowtoprogram.com/php/object-oriented-php/web-apps-with-silex
 
-##Instructions
+## Instructions
 
 From the `web/` folder, start a PHP server: `php -S localhost:8000` and navigate to http://localhost:8000 on your browser.
 
@@ -90,7 +90,7 @@ I found ip address number on the phpMyAdmin page where it stated:
 127.0.0.1:(port)
 ```
 
-##Testing
+## Testing
 
 Run `phpunit tests` from the docroot
 
